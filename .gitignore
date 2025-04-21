@@ -40,3 +40,10 @@ Thumbs.db
 
 .nx/cache
 .nx/workspace-data
+
+# Environment variables
+.env
+
+# Database
+*.sqlite
+*.sqlite-journal

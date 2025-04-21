@@ -1,82 +1,119 @@
-# CopartNotifier
+# Copart Car Notifier
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A NestJS application that uses Telegram bot to notify users about new car listings from Copart.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+## Features
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/nest?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+- Fetches new car listings from Copart API periodically
+- Sends notifications to Telegram users about new listings
+- Allows users to customize notification schedule using cron expressions
+- Stores car listings and user preferences in a database
 
-## Finish your CI setup
+## Prerequisites
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/3oHQDMM89S)
+- Node.js (v18 or later)
+- npm or yarn
+- Telegram Bot Token (obtained from BotFather)
 
+## Installation
 
-## Run tasks
+1. Clone the repository:
 
-To run the dev server for your app, use:
-
-```sh
-npx nx serve copart-notifier
+```bash
+git clone <repository-url>
+cd copart-notifier
 ```
 
-To create a production bundle:
+2. Install dependencies:
 
-```sh
-npx nx build copart-notifier
+```bash
+npm install
 ```
 
-To see all available targets to run for a project, run:
+3. Create a `.env` file in the root directory with your Telegram bot token:
 
-```sh
-npx nx show project copart-notifier
+```
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+## Running the Application
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Development Mode
 
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/nest:app demo
+```bash
+npm run start:dev
 ```
 
-To generate a new library, use:
+### Production Mode
 
-```sh
-npx nx g @nx/node:lib mylib
+```bash
+npm run build
+npm run start:prod
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### Testing the Copart API Integration
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+To test the Copart API integration without running the full application:
 
+```bash
+npm run test:copart-api
+```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+This will run a test script that fetches car listings from Copart and displays sample results. The script will show the first few listings with details like lot number, model, year, price, auction date, and image URL.
 
-## Install Nx Console
+Example output:
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+```
+Testing Copart API integration...
+Sending request to Copart API...
+Successfully fetched 20 car listings
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Sample listings:
 
-## Useful links
+Listing 1:
+- Lot Number: 64388354
+- Model: A4 PREMIUM
+- Year: 2017
+- Price: $2350
+- Auction Date: 4/21/2025
+- Image URL: https://cs.copart.com/v1/AUTH_svc.pdoc00001/lpp/0724/80505467e3644ca9af56cd6bec9140d2_thb.jpg
+```
 
-Learn more:
+## Bot Commands
 
-- [Learn more about this workspace setup](https://nx.dev/nx-api/nest?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- `/start` - Start receiving notifications
+- `/help` - Show available commands
+- `/setschedule [cron]` - Set notification schedule using cron expression (e.g., `/setschedule 0 */2 * * *` for every 2 hours)
+- `/status` - Show current notification settings
+- `/stop` - Stop receiving notifications
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Creating a Telegram Bot
+
+1. Open Telegram and search for "BotFather"
+2. Start a chat with BotFather and send the command `/newbot`
+3. Follow the instructions to create a new bot
+4. Once created, BotFather will provide you with a token
+5. Copy this token to your `.env` file
+
+## Project Structure
+
+- `apps/copart-notifier/src/app/bot` - Telegram bot integration
+- `apps/copart-notifier/src/app/copart` - Copart API integration and data processing
+  - `interfaces` - TypeScript interfaces for Copart API request/response
+- `apps/copart-notifier/src/app/database` - Database entities and configuration
+- `apps/copart-notifier/src/app/scheduler` - Scheduled tasks for fetching data
+
+## Copart API Integration
+
+The application uses the Copart API to fetch car listings:
+
+- Endpoint: `https://www.copart.com/public/lots/vehicle-finder-search-results`
+- Method: POST
+- Request: JSON payload with filters, sorting, and pagination
+- Response: JSON with car listings including details like model, year, price, auction date, etc.
+
+The API integration allows for filtering by make, model, year, drive type, and other parameters, which can be customized in the `createFilter` method of the `CopartService`.
+
+## License
+
+MIT
