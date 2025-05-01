@@ -12,8 +12,9 @@ services:
     environment:
       - NODE_ENV=production
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
-    volumes:
-      - ./copart-notifier.sqlite:/app/copart-notifier.sqlite
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/copart
+    depends_on:
+      - db
     healthcheck:
       test:
         [
@@ -28,3 +29,19 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+
+  db:
+    image: postgres:13
+    container_name: copart-db
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: copart
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
