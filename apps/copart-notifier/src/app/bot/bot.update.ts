@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, LessThan } from 'typeorm';
+import { Repository } from 'typeorm';
 import {
   UserPreference,
   CarListing,
@@ -315,8 +315,6 @@ Car Information:
 
   @Command('details')
   async getDetails(@Ctx() ctx: Context) {
-    const chatId = ctx.chat.id;
-
     // Check if message exists and has text property
     if (!ctx.message || !('text' in ctx.message)) {
       return 'Invalid message format. Please send a text message with the command.';

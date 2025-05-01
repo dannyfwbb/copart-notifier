@@ -137,6 +137,7 @@ export class SchedulerService implements OnModuleInit {
       // Remove existing job with the same name if it exists
       try {
         this.schedulerRegistry.deleteCronJob(jobName);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         // Job doesn't exist, which is fine
       }
@@ -324,6 +325,7 @@ export class SchedulerService implements OnModuleInit {
         try {
           // Remove the old job
           this.schedulerRegistry.deleteCronJob(oldJobName);
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (error) {
           // Job doesn't exist, which is fine
         }
@@ -343,6 +345,7 @@ export class SchedulerService implements OnModuleInit {
       try {
         // Remove the existing job if it exists
         this.schedulerRegistry.deleteCronJob(newJobName);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         // Job doesn't exist, which is fine
       }
